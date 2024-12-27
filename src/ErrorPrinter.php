@@ -24,6 +24,17 @@ class ErrorPrinter
     }
 
     /**
+     * 文字列に色をつける
+     * @param string $strInput
+     * @return string
+     */
+    private function addStringColorRed($strInput)
+    {
+        return '<fg=red;options=bold>' . $strInput . '</>';
+    }
+
+
+    /**
      * @param string $strInput
      * @return string
      */
@@ -33,7 +44,7 @@ class ErrorPrinter
         if ($this->isDifferentNumber($strInput)) {
             // フォントを変える数値を取得
             $matches = $this->getDifferentNumber($strInput);
-            return 'Failed asserting that <fg=red;options=bold>' . $matches[1] . '</> is identical to <fg=red;options=bold>' . $matches[2] . '</>.';
+            return 'Failed asserting that ' . $this->addStringColorRed($matches[1]) . ' is identical to ' . $this->addStringColorRed($matches[2]) . '.';
         }
         // そのまま返す
         return $strInput;
