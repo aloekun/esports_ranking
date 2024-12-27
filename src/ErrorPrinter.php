@@ -9,7 +9,7 @@ class ErrorPrinter
      */
     private function isDifferentNumber($strInput)
     {
-        return preg_match('/Failed asserting that (\d+) is identical to (\d+)./', $strInput, $matches);
+        return preg_match('/Failed asserting that (-?\d+) is identical to (-?\d+)./', $strInput, $matches);
     }
 
     /**
@@ -19,7 +19,7 @@ class ErrorPrinter
      */
     private function getDifferentNumber($strInput)
     {
-        preg_match('/Failed asserting that (\d+) is identical to (\d+)./', $strInput, $matches);
+        preg_match('/Failed asserting that (-?\d+) is identical to (-?\d+)./', $strInput, $matches);
         return $matches;
     }
 
