@@ -33,3 +33,31 @@ test('文字列が返る(そのまま, bar)', function () {
 
     expect($result)->toBe('bar');
 });
+
+test('文字列が返る(フォントを変える, 文字列比較)', function () {
+    $sut = new ErrorPrinter();
+
+    $result = $sut->printError("Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'baz'
++'test'");
+
+    expect($result)->toBe("Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'<fg=red;options=bold>baz</>'
++'<fg=red;options=bold>test</>'");
+
+    echo "result:" . $result;
+});
+
+// test('文字列比較テスト用', function () {
+//     $sut = new ErrorPrinter();
+
+//     $result = "test";
+
+//     expect($result)->toBe('baz');
+// });
