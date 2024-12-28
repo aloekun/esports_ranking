@@ -4,12 +4,23 @@ class ErrorPrinter
 {
     /**
      * 数値比較のエラーかどうか
+     * @param string $strInput  入力文字列
+     * @param string[] $matches マッチした文字列
+     * @return bool マッチしたかどうか
+     */
+    private function checkDifferentNumber($strInput, &$matches = null)
+    {
+        return preg_match('/Failed asserting that (-?\d+) is identical to (-?\d+)./', $strInput, $matches);
+    }
+
+    /**
+     * 数値比較のエラーかどうか
      * @param string $strInput
      * @return bool
      */
     private function isDifferentNumber($strInput)
     {
-        return preg_match('/Failed asserting that (-?\d+) is identical to (-?\d+)./', $strInput, $matches);
+        return $this->checkDifferentNumber($strInput);
     }
 
     /**
@@ -19,8 +30,20 @@ class ErrorPrinter
      */
     private function getDifferentNumber($strInput)
     {
-        preg_match('/Failed asserting that (-?\d+) is identical to (-?\d+)./', $strInput, $matches);
+        $matches = null;
+        $this->checkDifferentNumber($strInput, $matches);
         return $matches;
+    }
+
+    /**
+     * 文字列比較のエラーかどうか
+     * @param string $strInput  入力文字列
+     * @param string[] $matches マッチした文字列
+     * @return bool マッチしたかどうか
+     */
+    private function checkDifferentString($strInput, &$matches = null)
+    {
+        return preg_match('/Failed asserting that two strings are identical.\n--- Expected\n\+\+\+ Actual\n@@ @@\n-\'(.*)\'\n\+\'(.*)\'/', $strInput, $matches);
     }
 
     /**
@@ -30,7 +53,7 @@ class ErrorPrinter
      */
     private function isDifferentString($strInput)
     {
-        return preg_match('/Failed asserting that two strings are identical.\n--- Expected\n\+\+\+ Actual\n@@ @@\n-\'(.*)\'\n\+\'(.*)\'/', $strInput, $matches);
+        return $this->checkDifferentString($strInput);
     }
 
     /**
@@ -40,7 +63,8 @@ class ErrorPrinter
      */
     private function getDifferentString($strInput)
     {
-        preg_match('/Failed asserting that two strings are identical.\n--- Expected\n\+\+\+ Actual\n@@ @@\n-\'(.*)\'\n\+\'(.*)\'/', $strInput, $matches);
+        $matches = null;
+        $this->checkDifferentString($strInput, $matches);
         return $matches;
     }
 
