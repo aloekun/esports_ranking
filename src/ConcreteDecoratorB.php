@@ -4,8 +4,8 @@ require_once "Decorator.php";
 
 class ConcreteDecoratorB extends Decorator
 {
-    public function operation()
+    public function operation($throwable)
     {
-        return 'ConcreteDecoratorB(' . parent::operation() . ')';
+        return 'ConcreteDecoratorB(' . parent::operation($throwable) . ')';
     }
 }

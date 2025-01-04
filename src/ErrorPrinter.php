@@ -16,10 +16,23 @@ class ErrorPrinter
         } elseif ($this->isDifferentString($strInput)) {
             // フォントを変える文字列を取得
             $matches = $this->getDifferentString($strInput);
-            return "Failed asserting that two strings are identical.\n--- Expected\n+++ Actual\n@@ @@\n-'" . $this->addStringColorRed($matches[1]) . "'\n+'" . $this->addStringColorRed($matches[2]) . "'";
+            // 改行コードが違っても対応するため、改行コードを取得
+            $endOfLine = $this->getEndOfLine($strInput);
+            // print("endOfLine: $endOfLine\n");
+            return "Failed asserting that two strings are identical.$endOfLine--- Expected$endOfLine+++ Actual$endOfLine@@ @@$endOfLine-'" . $this->addStringColorRed($matches[1]) . "'$endOfLine+'" . $this->addStringColorRed($matches[2]) . "'";
         }
         // そのまま返す
         return $strInput;
+    }
+
+    /**
+     * フォントを変えるかどうか
+     * @param string $strInput
+     * @return bool
+     */
+    public function isChangePrint($strInput)
+    {
+        return $this->isDifferentNumber($strInput) || $this->isDifferentString($strInput);
     }
 
     /**
@@ -63,7 +76,7 @@ class ErrorPrinter
      */
     private function checkDifferentString($strInput, &$matches = null)
     {
-        return preg_match('/Failed asserting that two strings are identical.\n--- Expected\n\+\+\+ Actual\n@@ @@\n-\'(.*)\'\n\+\'(.*)\'/', $strInput, $matches);
+        return preg_match('/Failed asserting that two strings are identical.\R--- Expected\R\+\+\+ Actual\R@@ @@\R-\'(.*)\'\R\+\'(.*)\'/', $strInput, $matches);
     }
 
     /**
@@ -96,5 +109,19 @@ class ErrorPrinter
     private function addStringColorRed($strInput)
     {
         return '<fg=red;options=bold>' . $strInput . '</>';
+    }
+
+    /**
+     * 改行コードを抽出する
+     * @param string $strInput
+     * @return string[]
+     */
+    private function getEndOfLine($strInput)
+    {
+        // 改行コードを抽出する正規表現
+        $pattern = '/(\R)/';
+        preg_match($pattern, $strInput, $matches);
+        // 複数個ヒットするかもしれないが、先頭の一つを代表にして返す
+        return $matches[1];
     }
 }

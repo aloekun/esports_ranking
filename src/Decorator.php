@@ -9,8 +9,8 @@ abstract class Decorator implements Component
         $this->component = $component;
     }
 
-    public function operation()
+    public function operation($throwable)
     {
-        return $this->component->operation();
+        return $this->component->operation($throwable);
     }
 }

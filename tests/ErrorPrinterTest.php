@@ -51,7 +51,7 @@ test('文字列が返る(フォントを変える, 文字列比較)', function (
 -'<fg=red;options=bold>baz</>'
 +'<fg=red;options=bold>test</>'");
 
-    echo "result:" . $result;
+    // echo "result:" . $result;
 });
 
 // test('文字列比較テスト用', function () {

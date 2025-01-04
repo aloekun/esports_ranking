@@ -10,5 +10,5 @@ test('Decoratorパターンを重ねる', function () {
     $decorator = new ConcreteDecoratorB($decorator);
     $throwable = null;
 
-    expect($decorator->operation())->toBe('ConcreteDecoratorB(ConcreteDecoratorA(TestComponent))');
+    expect($decorator->operation($throwable))->toBe('ConcreteDecoratorB(ConcreteDecoratorA(TestComponent))');
 });
