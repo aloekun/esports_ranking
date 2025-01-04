@@ -53,11 +53,3 @@ test('文字列が返る(フォントを変える, 文字列比較)', function (
 
     // echo "result:" . $result;
 });
-
-// test('文字列比較テスト用', function () {
-//     $sut = new ErrorPrinter();
-
-//     $result = "test";
-
-//     expect($result)->toBe('baz');
-// });
