@@ -14,14 +14,14 @@ class ErrorPrinter
         if ($this->isDifferentNumber($strInput)) {
             // フォントを変える数値を取得
             $matches = $this->getDifferentNumber($strInput);
-            return 'Failed asserting that ' . $this->addStringColorRed($matches[1]) . ' is identical to ' . $this->addStringColorRed($matches[2]) . '.';
+            return 'Failed asserting that ' . $this->addStringColorRed($matches[1]) . ' is identical to ' . $this->addStringColorGreen($matches[2]) . '.';
         } elseif ($this->isDifferentString($strInput)) {
             // フォントを変える文字列を取得
             $matches = $this->getDifferentString($strInput);
             // 改行コードが違っても対応するため、改行コードを取得
             $endOfLine = $this->getEndOfLine($strInput);
             // print("endOfLine: $endOfLine\n");
-            return "Failed asserting that two strings are identical.$endOfLine--- Expected$endOfLine+++ Actual$endOfLine@@ @@$endOfLine-'" . $this->addStringColorRed($matches[1]) . "'$endOfLine+'" . $this->addStringColorRed($matches[2]) . "'";
+            return "Failed asserting that two strings are identical.$endOfLine--- Expected$endOfLine+++ Actual$endOfLine@@ @@$endOfLine-'" . $this->addStringColorGreen($matches[1]) . "'$endOfLine+'" . $this->addStringColorRed($matches[2]) . "'";
         }
         // そのまま返す
         return $strInput;
@@ -104,13 +104,28 @@ class ErrorPrinter
     }
 
     /**
-     * 文字列に色をつける
+     * 文字列にエラー色をつける
      * @param string $strInput
      * @return string
      */
     private function addStringColorRed($strInput)
     {
-        return '<fg=red;options=bold>' . $strInput . '</>';
+        return $this->colorizeInputStr($strInput, 'red');
+    }
+
+    /**
+     * 文字列に成功色をつける
+     * @param string $strInput
+     * @return string
+     */
+    private function addStringColorGreen($strInput)
+    {
+        return $this->colorizeInputStr($strInput, 'green');
+    }
+
+    private function colorizeInputStr($strInput, $color)
+    {
+        return "<fg=$color;options=bold>" . $strInput . '</>';
     }
 
     /**

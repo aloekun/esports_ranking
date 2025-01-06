@@ -7,7 +7,7 @@ test('文字列が返る(フォントを変える, 数値比較1)', function () 
 
     $result = $sut->printError('Failed asserting that 4 is identical to 3.');
 
-    expect($result)->toBe('Failed asserting that <fg=red;options=bold>4</> is identical to <fg=red;options=bold>3</>.');
+    expect($result)->toBe('Failed asserting that <fg=red;options=bold>4</> is identical to <fg=green;options=bold>3</>.');
 });
 
 test('文字列が返る(フォントを変える, 数値比較2)', function () {
@@ -15,7 +15,7 @@ test('文字列が返る(フォントを変える, 数値比較2)', function () 
 
     $result = $sut->printError('Failed asserting that 1 is identical to 10.');
 
-    expect($result)->toBe('Failed asserting that <fg=red;options=bold>1</> is identical to <fg=red;options=bold>10</>.');
+    expect($result)->toBe('Failed asserting that <fg=red;options=bold>1</> is identical to <fg=green;options=bold>10</>.');
 });
 
 test('文字列が返る(そのまま, foo)', function () {
@@ -48,7 +48,7 @@ test('文字列が返る(フォントを変える, 文字列比較)', function (
 --- Expected
 +++ Actual
 @@ @@
--'<fg=red;options=bold>baz</>'
+-'<fg=green;options=bold>baz</>'
 +'<fg=red;options=bold>test</>'");
 
     // echo "result:" . $result;

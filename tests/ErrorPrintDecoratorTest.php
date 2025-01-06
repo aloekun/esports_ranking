@@ -22,7 +22,7 @@ test("messageの出力", function () {
 
     $result = $errorPrintDecorator->operation($throwable);
 
-    expect($result)->toBe('Failed asserting that <fg=red;options=bold>4</> is identical to <fg=red;options=bold>3</>.');
+    expect($result)->toBe('Failed asserting that <fg=red;options=bold>4</> is identical to <fg=green;options=bold>3</>.');
 });
 
 test("descriptionの出力", function () {
@@ -41,6 +41,6 @@ test("descriptionの出力", function () {
 --- Expected
 +++ Actual
 @@ @@
--'<fg=red;options=bold>baz</>'
+-'<fg=green;options=bold>baz</>'
 +'<fg=red;options=bold>test</>'");
 });
