@@ -7,6 +7,10 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class BaseErrorPrintComponent implements Component
 {
+    /**
+     * @param \PHPUnit\Event\Code\Throwable $throwable
+     * @return mixed
+     */
     public function operation($throwable)
     {
         $consoleOutput = new ConsoleOutput();
