@@ -5,6 +5,9 @@ namespace ErrorPrintHelper;
 class ErrorPrinter
 {
     /**
+     * エラーを表示する
+     * NOTE: ここに判定を追加する場合は、isChangePrintメソッドにも追加すること
+     *       さもなくば、判定をすり抜ける
      * @param string $strInput
      * @return string
      */
@@ -22,6 +25,9 @@ class ErrorPrinter
             $endOfLine = $this->getEndOfLine($strInput);
             // print("endOfLine: $endOfLine\n");
             return "Failed asserting that two strings are identical.$endOfLine--- Expected$endOfLine+++ Actual$endOfLine@@ @@$endOfLine-'" . $this->addStringColorGreen($matches[1]) . "'$endOfLine+'" . $this->addStringColorRed($matches[2]) . "'";
+        } elseif ($this->isMissingClass($strInput)) {
+            $matches = $this->getMissingClass($strInput);
+            return 'Class "' . $this->addStringColorRed($matches[1]) . '" not found';
         }
         // そのまま返す
         return $strInput;
@@ -34,7 +40,7 @@ class ErrorPrinter
      */
     public function isChangePrint($strInput)
     {
-        return $this->isDifferentNumber($strInput) || $this->isDifferentString($strInput);
+        return $this->isDifferentNumber($strInput) || $this->isDifferentString($strInput) || $this->isMissingClass($strInput);
     }
 
     /**
@@ -140,5 +146,22 @@ class ErrorPrinter
         preg_match($pattern, $strInput, $matches);
         // 複数個ヒットするかもしれないが、先頭の一つを代表にして返す
         return $matches[1];
+    }
+
+    private function isMissingClass($strInput)
+    {
+        return $this->checkMissingClass($strInput);
+    }
+
+    private function getMissingClass($strInput)
+    {
+        $matches = null;
+        $this->checkMissingClass($strInput, $matches);
+        return $matches;
+    }
+
+    private function checkMissingClass($strInput, &$matches = null)
+    {
+        return preg_match('/Class "(.*)" not found/', $strInput, $matches);
     }
 }
