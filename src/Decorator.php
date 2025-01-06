@@ -1,5 +1,7 @@
 <?php
 
+namespace ErrorPrintHelper;
+
 abstract class Decorator implements Component
 {
     protected $component;

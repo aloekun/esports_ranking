@@ -1,6 +1,6 @@
 <?php
 
-require_once "src\ErrorPrinter.php";
+use ErrorPrintHelper\ErrorPrinter;
 
 test('文字列が返る(フォントを変える, 数値比較1)', function () {
     $sut = new ErrorPrinter();

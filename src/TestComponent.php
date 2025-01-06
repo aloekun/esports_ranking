@@ -1,6 +1,6 @@
 <?php
 
-require_once "Component.php";
+namespace ErrorPrintHelper;
 
 class TestComponent implements Component
 {

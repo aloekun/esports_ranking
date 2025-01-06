@@ -1,8 +1,8 @@
 <?php
 
-require_once "src\TestComponent.php";
-require_once "src\ConcreteDecoratorA.php";
-require_once "src\ConcreteDecoratorB.php";
+use ErrorPrintHelper\TestComponent;
+use ErrorPrintHelper\ConcreteDecoratorA;
+use ErrorPrintHelper\ConcreteDecoratorB;
 
 test('Decoratorパターンを重ねる', function () {
     $component = new TestComponent();

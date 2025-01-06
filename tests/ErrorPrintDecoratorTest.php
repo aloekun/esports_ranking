@@ -1,9 +1,9 @@
 <?php
 
-use PHPUnit\Event\Code\Throwable;
+use ErrorPrintHelper\TestComponent;
+use ErrorPrintHelper\ErrorPrintDecorator;
 
-require_once "src/TestComponent.php";
-require_once "src/ErrorPrintDecorator.php";
+use PHPUnit\Event\Code\Throwable;
 
 test("変更対象外の出力", function () {
     $testComponent = new TestComponent();

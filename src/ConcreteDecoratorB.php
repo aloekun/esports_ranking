@@ -1,6 +1,6 @@
 <?php
 
-require_once "Decorator.php";
+namespace ErrorPrintHelper;
 
 class ConcreteDecoratorB extends Decorator
 {

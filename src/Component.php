@@ -1,5 +1,7 @@
 <?php
 
+namespace ErrorPrintHelper;
+
 interface Component
 {
     /**
