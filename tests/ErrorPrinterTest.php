@@ -1,9 +1,10 @@
 <?php
 
 use ErrorPrintHelper\ErrorPrinter;
+use ErrorPrintHelper\ColorStringAscii;
 use ErrorPrintHelper\ColorStringHttp;
 
-test('文字列が返る(フォントを変える, 数値比較1)', function () {
+test('文字列が返る(HTTP色変え, 数値比較1)', function () {
     $colorManager = new ColorStringHttp();
     $sut = new ErrorPrinter($colorManager);
 
@@ -12,7 +13,7 @@ test('文字列が返る(フォントを変える, 数値比較1)', function () 
     expect($result)->toBe('Failed asserting that <fg=red;options=bold>4</> is identical to <fg=green;options=bold>3</>.');
 });
 
-test('文字列が返る(フォントを変える, 数値比較2)', function () {
+test('文字列が返る(HTTP色変え, 数値比較2)', function () {
     $colorManager = new ColorStringHttp();
     $sut = new ErrorPrinter($colorManager);
 
@@ -39,7 +40,7 @@ test('文字列が返る(そのまま, bar)', function () {
     expect($result)->toBe('bar');
 });
 
-test('文字列が返る(フォントを変える, 文字列比較)', function () {
+test('文字列が返る(HTTP色変え, 文字列比較)', function () {
     $colorManager = new ColorStringHttp();
     $sut = new ErrorPrinter($colorManager);
 
@@ -58,4 +59,13 @@ test('文字列が返る(フォントを変える, 文字列比較)', function (
 +'<fg=red;options=bold>test</>'");
 
     // echo "result:" . $result;
+});
+
+test('文字列が返る(ASCII色変え, 数値比較1)', function () {
+    $colorManager = new ColorStringAscii();
+    $sut = new ErrorPrinter($colorManager);
+
+    $result = $sut->printError('Failed asserting that 4 is identical to 3.');
+
+    expect($result)->toBe('Failed asserting that ' . "\033[31m" . 4 . "\033[0m" . ' is identical to ' . "\033[32m" . 3 . "\033[0m" . '.');
 });
