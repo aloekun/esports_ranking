@@ -2,12 +2,14 @@
 
 use ErrorPrintHelper\TestComponent;
 use ErrorPrintHelper\ErrorPrintDecorator;
+use ErrorPrintHelper\ColorStringHttp;
 
 use PHPUnit\Event\Code\Throwable;
 
 test("変更対象外の出力", function () {
     $testComponent = new TestComponent();
-    $errorPrintDecorator = new ErrorPrintDecorator($testComponent);
+    $colorManager = new ColorStringHttp();
+    $errorPrintDecorator = new ErrorPrintDecorator($testComponent, $colorManager);
     $throwable = new Throwable("test", "message", "description", "stackTrace", null);
 
     $result = $errorPrintDecorator->operation($throwable);
@@ -17,7 +19,8 @@ test("変更対象外の出力", function () {
 
 test("messageの出力", function () {
     $testComponent = new TestComponent();
-    $errorPrintDecorator = new ErrorPrintDecorator($testComponent);
+    $colorManager = new ColorStringHttp();
+    $errorPrintDecorator = new ErrorPrintDecorator($testComponent, $colorManager);
     $throwable = new Throwable("test", "Failed asserting that 4 is identical to 3.", "description", "stackTrace", null);
 
     $result = $errorPrintDecorator->operation($throwable);
@@ -27,7 +30,8 @@ test("messageの出力", function () {
 
 test("descriptionの出力", function () {
     $testComponent = new TestComponent();
-    $errorPrintDecorator = new ErrorPrintDecorator($testComponent);
+    $colorManager = new ColorStringHttp();
+    $errorPrintDecorator = new ErrorPrintDecorator($testComponent, $colorManager);
     $throwable = new Throwable("test", "message", "Failed asserting that two strings are identical.
 --- Expected
 +++ Actual

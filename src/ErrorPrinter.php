@@ -4,6 +4,17 @@ namespace ErrorPrintHelper;
 
 class ErrorPrinter
 {
+    private $colorManager;
+
+    public function __construct(
+        ColorStringInterface $colorManager
+    ) {
+        if ($colorManager === null) {
+            throw new \InvalidArgumentException('ColorManager is null');
+        }
+        $this->colorManager = $colorManager;
+    }
+
     /**
      * エラーを表示する
      * NOTE: ここに判定を追加する場合は、isChangePrintメソッドにも追加すること
@@ -17,17 +28,17 @@ class ErrorPrinter
         if ($this->isDifferentNumber($strInput)) {
             // フォントを変える数値を取得
             $matches = $this->getDifferentNumber($strInput);
-            return 'Failed asserting that ' . $this->addStringColorRed($matches[1]) . ' is identical to ' . $this->addStringColorGreen($matches[2]) . '.';
+            return 'Failed asserting that ' . $this->colorManager->addStringColorRed($matches[1]) . ' is identical to ' . $this->colorManager->addStringColorGreen($matches[2]) . '.';
         } elseif ($this->isDifferentString($strInput)) {
             // フォントを変える文字列を取得
             $matches = $this->getDifferentString($strInput);
             // 改行コードが違っても対応するため、改行コードを取得
             $endOfLine = $this->getEndOfLine($strInput);
             // print("endOfLine: $endOfLine\n");
-            return "Failed asserting that two strings are identical.$endOfLine--- Expected$endOfLine+++ Actual$endOfLine@@ @@$endOfLine-'" . $this->addStringColorGreen($matches[1]) . "'$endOfLine+'" . $this->addStringColorRed($matches[2]) . "'";
+            return "Failed asserting that two strings are identical.$endOfLine--- Expected$endOfLine+++ Actual$endOfLine@@ @@$endOfLine-'" . $this->colorManager->addStringColorGreen($matches[1]) . "'$endOfLine+'" . $this->colorManager->addStringColorRed($matches[2]) . "'";
         } elseif ($this->isMissingClass($strInput)) {
             $matches = $this->getMissingClass($strInput);
-            return 'Class "' . $this->addStringColorRed($matches[1]) . '" not found';
+            return 'Class "' . $this->colorManager->addStringColorRed($matches[1]) . '" not found';
         }
         // そのまま返す
         return $strInput;
@@ -107,31 +118,6 @@ class ErrorPrinter
         $matches = null;
         $this->checkDifferentString($strInput, $matches);
         return $matches;
-    }
-
-    /**
-     * 文字列にエラー色をつける
-     * @param string $strInput
-     * @return string
-     */
-    private function addStringColorRed($strInput)
-    {
-        return $this->colorizeInputStr($strInput, 'red');
-    }
-
-    /**
-     * 文字列に成功色をつける
-     * @param string $strInput
-     * @return string
-     */
-    private function addStringColorGreen($strInput)
-    {
-        return $this->colorizeInputStr($strInput, 'green');
-    }
-
-    private function colorizeInputStr($strInput, $color)
-    {
-        return "<fg=$color;options=bold>" . $strInput . '</>';
     }
 
     /**
