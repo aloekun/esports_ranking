@@ -79,11 +79,30 @@ test('文字列が返る(HTTP色変え, 文字列比較)', function () {
     // echo "result:" . $result;
 });
 
-test('文字列が返る(ASCII色変え, 数値比較1)', function () {
+test('文字列が返る(ASCII色変え, 数値比較)', function () {
     $colorManager = new ColorStringAscii();
     $sut = new ErrorPrinter($colorManager);
 
     $result = $sut->printError('Failed asserting that 4 is identical to 3.');
 
     expect($result)->toBe('Failed asserting that ' . "\033[31m" . 4 . "\033[0m" . ' is identical to ' . "\033[32m" . 3 . "\033[0m" . '.');
+});
+
+test('文字列が返る(ASCII色変え, 文字列比較)', function () {
+    $colorManager = new ColorStringAscii();
+    $sut = new ErrorPrinter($colorManager);
+
+    $result = $sut->printError("Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'Hello, Dog!'
++'Hello, World!'");
+
+    expect($result)->toBe("Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'" . "\033[32m" . "Hello, Dog!" . "\033[0m" . "'
++'" . "\033[31m" . "Hello, World!" . "\033[0m" . "'");
 });

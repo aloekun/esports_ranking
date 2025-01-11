@@ -47,6 +47,15 @@ class ErrorPrinter
             $endOfLine = $this->getEndOfLine($strInput);
             // print("endOfLine: $endOfLine\n");
             return "Failed asserting that two strings are identical.$endOfLine--- Expected$endOfLine+++ Actual$endOfLine@@ @@$endOfLine-'" . $this->colorManager->addStringColorGreen($matches[1]) . "'$endOfLine+'" . $this->colorManager->addStringColorRed($matches[2]) . "'";
+        } elseif ($this->isDifferentStringPhpUnit($strInput)) {
+            // print("isDifferentStringPhpUnit\n");
+            // フォントを変える文字列を取得(PHPUnit)
+            $matches = $this->getDifferentStringPhpUnit($strInput);
+            // 改行コードが違っても対応するため、改行コードを取得
+            $endOfLine = $this->getEndOfLine($strInput);
+            // print("endOfLine: $endOfLine\n");
+            // return "Failed asserting that two strings are identical.$endOfLine--- Expected$endOfLine+++ Actual$endOfLine@@ @@$endOfLine-'" . $this->colorManager->addStringColorGreen($matches[1]) . "'$endOfLine+'" . $this->colorManager->addStringColorRed($matches[2]) . "'";
+            return "Failed asserting that two strings are equal.$endOfLine--- Expected$endOfLine+++ Actual$endOfLine@@ @@$endOfLine-'" . $this->colorManager->addStringColorGreen($matches[1]) . "'$endOfLine+'" . $this->colorManager->addStringColorRed($matches[2]) . "'";
         } elseif ($this->isMissingClass($strInput)) {
             // print("isMissingClass\n");
             $matches = $this->getMissingClass($strInput);
@@ -186,6 +195,23 @@ class ErrorPrinter
         preg_match($pattern, $strInput, $matches);
         // 複数個ヒットするかもしれないが、先頭の一つを代表にして返す
         return $matches[1];
+    }
+
+    private function checkDifferentStringPhpUnit($strInput, &$matches = null)
+    {
+        return preg_match('/Failed asserting that two strings are equal.\R--- Expected\R\+\+\+ Actual\R@@ @@\R-\'(.*)\'\R\+\'(.*)\'/', $strInput, $matches);
+    }
+
+    private function isDifferentStringPhpUnit($strInput)
+    {
+        return $this->checkDifferentStringPhpUnit($strInput);
+    }
+
+    private function getDifferentStringPhpUnit($strInput)
+    {
+        $matches = null;
+        $this->checkDifferentStringPhpUnit($strInput, $matches);
+        return $matches;
     }
 
     private function isMissingClass($strInput)
