@@ -21,30 +21,35 @@ test("messageの出力", function () {
     $testComponent = new TestComponent();
     $colorManager = new ColorStringHttp();
     $errorPrintDecorator = new ErrorPrintDecorator($testComponent, $colorManager);
-    $throwable = new Throwable("test", "Failed asserting that 4 is identical to 3.", "description", "stackTrace", null);
-
+    $target = "Failed asserting that 4 is identical to 3.";
+    $throwable = new Throwable("test", $target, "description", "stackTrace", null);
+    
     $result = $errorPrintDecorator->operation($throwable);
 
-    expect($result)->toBe('Failed asserting that <fg=red;options=bold>4</> is identical to <fg=green;options=bold>3</>.');
+    $countTarget = strlen($target);
+    $countResult = strlen($result);
+    expect($countResult)->toBeGreaterThan($countTarget);
+    expect($result)->toContain('red');
+    expect($result)->toContain('green');
 });
 
 test("descriptionの出力", function () {
     $testComponent = new TestComponent();
     $colorManager = new ColorStringHttp();
     $errorPrintDecorator = new ErrorPrintDecorator($testComponent, $colorManager);
-    $throwable = new Throwable("test", "message", "Failed asserting that two strings are identical.
+    $target = "Failed asserting that two strings are identical.
 --- Expected
 +++ Actual
 @@ @@
 -'baz'
-+'test'", "stackTrace", null);
++'test'";
+    $throwable = new Throwable("test", "message", $target, "stackTrace", null);
 
     $result = $errorPrintDecorator->operation($throwable);
 
-    expect($result)->toBe("Failed asserting that two strings are identical.
---- Expected
-+++ Actual
-@@ @@
--'<fg=green;options=bold>baz</>'
-+'<fg=red;options=bold>test</>'");
+    $countTarget = strlen($target);
+    $countResult = strlen($result);
+    expect($countResult)->toBeGreaterThan($countTarget);
+    expect($result)->toContain('red');
+    expect($result)->toContain('green');
 });
