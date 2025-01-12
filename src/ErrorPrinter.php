@@ -197,16 +197,32 @@ class ErrorPrinter
         return $matches[1];
     }
 
+    /**
+     * 文字列比較のエラーかどうか(PHPUnit)
+     * @param string $strInput  入力文字列
+     * @param string[] $matches マッチした文字列
+     * @return bool マッチしたかどうか
+     */
     private function checkDifferentStringPhpUnit($strInput, &$matches = null)
     {
         return preg_match('/Failed asserting that two strings are equal.\R--- Expected\R\+\+\+ Actual\R@@ @@\R-\'(.*)\'\R\+\'(.*)\'/', $strInput, $matches);
     }
 
+    /**
+     * 文字列比較のエラーかどうか(PHPUnit)
+     * @param string $strInput
+     * @return bool
+     */
     private function isDifferentStringPhpUnit($strInput)
     {
         return $this->checkDifferentStringPhpUnit($strInput);
     }
 
+    /**
+     * フォントを変える文字列を取得(PHPUnit)
+     * @param string $strInput
+     * @return string[]
+     */
     private function getDifferentStringPhpUnit($strInput)
     {
         $matches = null;
@@ -214,11 +230,21 @@ class ErrorPrinter
         return $matches;
     }
 
+    /**
+     * クラスが見つからないエラーかどうか
+     * @param string $strInput  入力文字列
+     * @return bool マッチしたかどうか
+     */
     private function isMissingClass($strInput)
     {
         return $this->checkMissingClass($strInput);
     }
 
+    /**
+     * クラスが見つからないエラーのクラス名を取得
+     * @param string $strInput
+     * @return string[]
+     */
     private function getMissingClass($strInput)
     {
         $matches = null;
@@ -226,16 +252,32 @@ class ErrorPrinter
         return $matches;
     }
 
+    /**
+     * クラスが見つからないエラーかどうか
+     * @param string $strInput  入力文字列
+     * @param string[] $matches マッチした文字列
+     * @return bool マッチしたかどうか
+     */
     private function checkMissingClass($strInput, &$matches = null)
     {
         return preg_match('/Class "(.*)" not found/', $strInput, $matches);
     }
 
+    /**
+     * メソッドが見つからないエラーかどうか
+     * @param string $strInput  入力文字列
+     * @return bool マッチしたかどうか
+     */
     private function isMissingMethod($strInput)
     {
         return $this->checkMissingMethod($strInput);
     }
 
+    /**
+     * メソッドが見つからないエラーのメソッド名を取得
+     * @param string $strInput
+     * @return string[]
+     */
     private function getMissingMethod($strInput)
     {
         $matches = null;
@@ -243,6 +285,12 @@ class ErrorPrinter
         return $matches;
     }
 
+    /**
+     * メソッドが見つからないエラーかどうか
+     * @param string $strInput  入力文字列
+     * @param string[] $matches マッチした文字列
+     * @return bool マッチしたかどうか
+     */
     private function checkMissingMethod($strInput, &$matches = null)
     {
         return preg_match('/Call to undefined method (.*)/', $strInput, $matches);
