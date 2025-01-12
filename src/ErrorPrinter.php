@@ -80,6 +80,7 @@ class ErrorPrinter
         return $this->isDifferentNumber($strInput)
             || $this->isDifferentNumberPhpUnit($strInput)
             || $this->isDifferentString($strInput)
+            || $this->isDifferentStringPhpUnit($strInput)
             || $this->isMissingClass($strInput)
             || $this->isMissingMethod($strInput);
     }
